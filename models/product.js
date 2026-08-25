@@ -24,10 +24,10 @@ module.exports = (sequelize, DataTypes) => {
           // as : "Variants"
       })
 
-      Product.hasMany(models.CartItem, {
-        foreignKey: 'productId',
-        as : "cartItems"
-    })
+    //   Product.hasMany(models.CartItem, {
+    //     foreignKey: 'productId',
+    //     as : "cartItems"
+    // })
     }
   }
   Product.init({

@@ -9,6 +9,7 @@ const categoryRoutes = require("./routes/categoryRoute")
 const cartRoutes = require("./routes/cartRoutes")
 const cartItemRoutes = require("./routes/cartItemRoutes")
 const productVariantRoutes = require("./routes/productvarientRoute")
+const orderRoutes = require("./routes/orderRoutes")
 
 
 const app = express()
@@ -28,6 +29,7 @@ app.use("/api/category", categoryRoutes)
 app.use("/api/cart", cartRoutes)
 app.use("/api/cartItem", cartItemRoutes)
 app.use("/api/ProductVariant", productVariantRoutes)
+app.use("/api/orders", orderRoutes)
  
 
 const serverStart = async() => {

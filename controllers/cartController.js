@@ -1,4 +1,4 @@
-const {Cart,CartItem,Product, User} = require('../models');
+const {Cart,CartItem,Product,ProductVariant, User} = require('../models');
 
 
 const createCart = async(req, res) => {
@@ -57,9 +57,19 @@ const getCart = async(req,res) => {
                     as : "cartItems",
                     include : [
                         {
-                            model : Product,
-                            as : "product",
-                            attributes : ["id","name","price","stock","sku"]
+                            model : ProductVariant,
+                            as : "variant",
+                            attributes : ["id","color","size","price","stock","sku"],
+
+                            include : [
+
+                                {
+                                    model : Product,
+                                    attributes : ["id", "name"]
+                                }
+
+                            ]
+
                         }
                     ]
                 }

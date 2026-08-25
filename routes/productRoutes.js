@@ -7,7 +7,7 @@ const authMiddleware = require("../middlewares/authMiddleware")
 const router = express.Router()
 
 
-router.post("/create",authMiddleware,sellerMiddleware , upload.array("image", 5) ,createProduct)
+router.post("/create",authMiddleware, sellerMiddleware , upload.array("image", 5) ,createProduct)
 router.get("/", getProducts)
 router.get("/:id", getProduct)
 router.put("/:id", authMiddleware,sellerMiddleware ,upload.array("image", 5) , updateProduct)

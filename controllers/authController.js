@@ -52,7 +52,7 @@ const register = async(req,res) => {
 
 
 const login = async(req,res) => {
-
+console.log("run")
     try {
         
     const {email, password} = req.body
