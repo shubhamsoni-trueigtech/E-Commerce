@@ -49,9 +49,10 @@ const createOrder = async(req,res,next) => {
         })
 
         for(const item of cart.cartItems){
-            
+            console.log("CART ITEM:", item.toJSON());
             await OrderItem.create({
                 orderId : order.id,
+                productId : item.productId,
                 variantId : item.variantId,
                 quantity : item.quantity,
                 price : item.price

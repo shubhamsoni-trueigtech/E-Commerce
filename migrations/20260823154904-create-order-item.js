@@ -20,7 +20,7 @@ module.exports = {
         onUpdate : "CASCADE",
         onDelete : "CASCADE"
       },
-      productId: {
+      variantId: {
         type: Sequelize.INTEGER,
         allowNull : false,
         references : {
@@ -53,3 +53,4 @@ module.exports = {
     await queryInterface.dropTable('OrderItems');
   }
 };
+ 

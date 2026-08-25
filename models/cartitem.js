@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey : "cartId",
         as : "CartItems"
       })
-
+ 
       CartItem.belongsTo(models.ProductVariant, {
-        foreignKey : "id",
+        foreignKey : "variantId",
         as : "variant"
       })
     }
