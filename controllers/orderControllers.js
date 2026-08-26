@@ -1,7 +1,9 @@
-const {Cart, CartItem ,Order, OrderItem} = require("../models")
+const {Cart, CartItem ,Order, OrderItem, ProductVariant} = require("../models")
 
 
 const createOrder = async(req,res,next) => {
+
+    const transaction = await Order.sequelize.transaction()
 
     try {
         
@@ -19,7 +21,7 @@ const createOrder = async(req,res,next) => {
                 }
             ]
         })
-
+ 
         if(!cart){
             return res.status(404).json({
                 success : false,
@@ -37,17 +39,36 @@ const createOrder = async(req,res,next) => {
         let totalAmount = 0
 
         for(const item of cart.cartItems){
+
+            const variant = await ProductVariant.findByPk(item.variantId)
+
+            if(!variant){
+                return res.status(400).json({
+                    success : false,
+                    message : "Product Variant Not Found"
+                })
+            }
+
+            if(variant.stock < item.quantity){
+                return res.status(400).json({
+                    success : false,
+                    message : `Only ${variant.stock} item is available`
+                })
+            }
+            
             totalAmount = totalAmount + Number(item.price) * item.quantity
         }
 
- 
+  
         const order = await Order.create({
             userId : req.user.id,
             totalAmount : totalAmount,
             status : "pending",
             shippingAddress : shippingAddress
+        },{
+            transaction
         })
-
+ 
         for(const item of cart.cartItems){
             console.log("CART ITEM:", item.toJSON());
             await OrderItem.create({
@@ -56,10 +77,28 @@ const createOrder = async(req,res,next) => {
                 variantId : item.variantId,
                 quantity : item.quantity,
                 price : item.price
+            },{
+                transaction
+            })
+
+            const variant = await ProductVariant.findByPk(item.variantId)
+
+            await variant.update({
+                stock : variant.stock - item.quantity
+            },{
+                transaction
             })
 
         } 
 
+        await CartItem.destroy({
+            where : {
+                cartId : cart.id 
+            },
+            transaction
+        })
+ 
+        await transaction.commit()
 
         res.status(200).json({
             success : true,
@@ -68,11 +107,19 @@ const createOrder = async(req,res,next) => {
         })
 
     } catch (error) {
+        await transaction.rollback() 
         res.status(400).json({
             success : false,
             message : error.message
         })
     }
+
+}
+
+
+const getOrder = async(re,res,next) => {
+
+
 
 }
 

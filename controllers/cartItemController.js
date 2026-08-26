@@ -5,7 +5,7 @@ const createCartItem = async(req,res) => {
 console.log(req.body)
     try {
          
-        const {productId,quantity , price} = req.body
+        const {productId,quantity,variantId , price} = req.body
 
         const userId = req.user.id 
 
@@ -19,7 +19,7 @@ console.log(req.body)
                 message : "Cart Not Found"
             })
         }
-
+ 
         const cartItem = await CartItem.create({
             cartId : cartExit.id,
             productId,

@@ -15,7 +15,7 @@ console.log(req.user)
             return res.status(200).json({
                 success : true,
                 message : "Cart Already Exist",
-                data : cartExist
+                // data : cartExist
             })
         }
 
@@ -36,7 +36,7 @@ console.log(req.user)
 
 }
 
-
+ 
 const getCart = async(req,res) => {
 // console.log( re)
     try {
